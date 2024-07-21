@@ -113,6 +113,11 @@ for r = 1:length(map_data)
         while nbor_issue == 1
             [x, nearest, plotobj_scale_newpoint, plotobj_ellipse_cylinder(ii), theta_from_nearest, omega_from_nearest, v_from_nearest] = ...
             sample_x_P_randomly(node,In_list_ID, r_attempt);
+
+            disp('sampling x');
+            num_sampling = num_sampling + 1;
+
+            [parent, value, nbor_issue, plotobj_neighbors, theta, omega, v] = find_parent(x, node, r_attempt, In_list_ID, nearest, theta_from_nearest, omega_from_nearest, v_from_nearest);
         end
     end
 end
