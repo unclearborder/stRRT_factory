@@ -25,24 +25,24 @@ while true
     
             
     % 障害物と船と一定距離(Dc)を保っているかチェック．
-    for k = 1:num_obs_edge_ini
-        dist_Cnt2ObsEdge = dist_point2lineseg(x(1:2), obstacle_edge(k).start, obstacle_edge(k).end);
-    
-        if dist_Cnt2ObsEdge < Dc
-            % 衝突発生，このforループを抜けてノードの生成からやり直し．
-            obstacle_issue = true;
-            break
-        end
-    end
-    
+    % for k = 1:num_obs_edge_ini
+    % %     dist_Cnt2ObsEdge = dist_point2lineseg(x(1:2), obstacle_edge(k).start, obstacle_edge(k).end);
+    % % 
+    % %     if dist_Cnt2ObsEdge < Dc
+    % %         % 衝突発生，このforループを抜けてノードの生成からやり直し．
+    % %         obstacle_issue = true;
+    % %         break
+    % %     end
+    % end
+    % 
     % 探索している領域の境界との衝突チェック
-    boundary_issue = boundary_check(x,Dc, bound);
+    % boundary_issue = boundary_check(x,Dc, bound);
 
     % ノンホロ制約を満たしてその点に到達できるかチェック
-    [nonholo_issue, theta, omega, v] = nonholonomic_check2(x, node(nearest));
+    % [nonholo_issue, theta, omega, v] = nonholonomic_check2(x, node(nearest));
    
     % 衝突なしかつノンホロOKなら終了
-    if boundary_issue == false && obstacle_issue == false && nonholo_issue == false
+    if obstacle_issue == false
         break
     end
     
@@ -50,8 +50,11 @@ while true
     delete(plotobj_scale_newpoint);
     delete(plotobj_ellipse_cylinder);
 
-end
 
+end
+    theta = param.min_turning_radius(1);
+    omega = param.omega_max(1);
+    v = param.v_max(1);
 
 end
 

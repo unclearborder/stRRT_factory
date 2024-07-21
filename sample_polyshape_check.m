@@ -61,7 +61,7 @@ for ii=1:num_obs_edge_ini
 %    end    
     if strcmp(map.AreaMap.type(ii),'circle') == true
        centerAxis = map.AreaMap.offset_center(ii);
-       if norm(x(1:2)-centerAxis) <= r
+       if norm(x(1:2)-centerAxis) <= map.AreaMap.r(ii)
            obstacle_issue = true;
            break;
        end
