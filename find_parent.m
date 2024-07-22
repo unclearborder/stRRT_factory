@@ -21,13 +21,19 @@ for j = 1:num_obs_edge_ini
         obstacle_edge = [map.AreaMap.offset_start(j,:);
                          map.AreaMap.offset_finish(j,:)];
         issue_flag1 = psuedo_obs_check_line_oct( x, node(nearest), obstacle_edge, bound, Dc);
-    else
-
+        if issue_flag1 == 1
+            return;
+        end
+    elseif strcmp(map.AreaMap.type(j),'circle') == true
+        issue_flag1 =  psuedo_obs_check_circle_oct(x, node(nearest), map, Dc);
+        if issue_flag1 == 1
+            break;
+        end
     end
 
 end
 
-issue_flag1 = psuedo_obs_check_line_oct( x, node(nearest), obstacle_edge, bound, Dc);
+% issue_flag1 = psuedo_obs_check_line_oct( x, node(nearest), obstacle_edge, bound, Dc);
 % issue_flag2 = psuedo_obs_check_line_ship(x, node(nearest), other_ship, Dc, v_o, t_max);
 % 
 % issue_flag_nearest  = issue_flag1 || issue_flag2;

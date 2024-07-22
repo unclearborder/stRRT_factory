@@ -38,8 +38,8 @@ obs_edge_delete_list = zeros(num_obs_edge, 1);
 
 % 全ての障害物の直線でチェック
 for k = 1:num_obs_edge
-    x2_st = obs_st(k);
-    x2_end = obs_end(k);
+    x2_st = obs_st(k,:);
+    x2_end = obs_end(k,:);
     
     % check direct collision here
     [min_dist, is_cross] = minDist_two_LineSeg_in(x0, xF, x2_st, x2_end);
@@ -59,18 +59,18 @@ obstacle_edge_list( (obs_edge_delete_list ~= 0), : ) = [];
 num_obs_edge = size(obstacle_edge_list, 1);
 
 % Similar check for outer boundry 
-boundary_X_dist = min( [( x0(1) - bound(1).x(1) ), ( xF(1) - bound(1).x(1) )...
-    ( bound(1).x(2) - x0(1) ), ( bound(1).x(2) - xF(1) ) ] );
-boundary_Y_dist = min( [( x0(2) - bound(2).x(1) ), ( xF(2) - bound(2).x(1) )...
-    ( bound(2).x(2) - x0(2) ), ( bound(2).x(2) - xF(2) ) ] );
-
-
-if boundary_X_dist > Dc && boundary_Y_dist > Dc
-    issue_boundary = false;
-elseif boundary_X_dist <= Dc || boundary_Y_dist <= Dc
-    issue_flag = true;
-    return
-end
+% boundary_X_dist = min( [( x0(1) - bound(1).x(1) ), ( xF(1) - bound(1).x(1) )...
+%     ( bound(1).x(2) - x0(1) ), ( bound(1).x(2) - xF(1) ) ] );
+% boundary_Y_dist = min( [( x0(2) - bound(2).x(1) ), ( xF(2) - bound(2).x(1) )...
+%     ( bound(2).x(2) - x0(2) ), ( bound(2).x(2) - xF(2) ) ] );
+% 
+% 
+% if boundary_X_dist > Dc && boundary_Y_dist > Dc
+%     issue_boundary = false;
+% elseif boundary_X_dist <= Dc || boundary_Y_dist <= Dc
+%     issue_flag = true;
+%     return
+% end
 
 
 if num_obs_edge == 0 && issue_boundary == false

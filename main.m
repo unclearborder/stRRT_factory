@@ -3,7 +3,8 @@ close all
 clc
 
 I = 1000; % MaxIteration
-Dc = [500 1000 2000];
+% Dc = [500 1000 2000];
+Dc = [10 10 10];
 t_max = 2400;
 v_max = [10 10 10];
 omega_max = [pi 0.1 0.01];
@@ -115,9 +116,31 @@ for r = 1:length(map_data)
             sample_x_P_randomly(node,In_list_ID, r_attempt);
 
             disp('sampling x');
+            x
             num_sampling = num_sampling + 1;
 
             [parent, value, nbor_issue, plotobj_neighbors, theta, omega, v] = find_parent(x, node, r_attempt, In_list_ID, nearest, theta_from_nearest, omega_from_nearest, v_from_nearest);
+            delete(plotobj_neighbors);
+            if nbor_issue == 1
+                delete(plotobj_scale_newpoint);
+                delete(plotobj_ellipse_cylinder(ii));
+            elseif nbor_issue == 0
+                delete(plotobj_scale_newpoint);
+%                 plot_ship_3D(x(1),x(2),theta,x(3),'b');
+                %text( x(1)+10,x(2)+10,x(3)+15,num2str(ii),'Color','w','FontSize',15)
+                num_attempts(ii) = num_sampling;
+                
+                % エッジをプロットする．エッジのオブジェクトをplotobj_edge(ノード番号)で保存する．
+                plotobj_edge(ii) = plot3([x(1) node(parent).x(1)],[x(2) node(parent).x(2)],[x(3) node(parent).x(3)],'k','LineWidth',2);
+            end
         end
+        node(ii).x      = x;
+        node(ii).theta  = theta;
+        node(ii).omega  = omega;
+        node(ii).v      = v;
+        node(ii).value  = value;
+        node(ii).parent = parent;
+        node(parent).children_num = node(parent).children_num + 1;
+        node(parent).children( node(parent).children_num ) = int16(ii);
     end
 end
