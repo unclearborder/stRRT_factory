@@ -1,13 +1,14 @@
 function [parent, value, nbor_issue, plotobj_neighbors, theta, omega, v] = find_parent(x, node, radius, In_list_ID, nearest, theta_from_nearest, omega_from_nearest, v_from_nearest)
 
 param = load('param.mat');
-obstacle_edge = param.obstacle_edge;
+map = load('map.mat');
+% obstacle_edge = param.obstacle_edge;
 % other_ship    = param.other_ship;
-Dc            = param.Dc;
+Dc            = param.Dc(1);
 bound         = param.bound;
-v_o           = param.v_o;
+% v_o           = param.v_o;
 t_max         = param.t_max;
-
+num_obs_edge_ini = length(map.AreaMap.name);
 
 % 出力の定義＆初期値
 nbor_issue = 0; parent = 0; value = 0; theta = 0; omega = 0; v = 0; plotobj_neighbors = plot3(0,0,0);
@@ -15,10 +16,22 @@ nbor_issue = 0; parent = 0; value = 0; theta = 0; omega = 0; v = 0; plotobj_neig
 % 最近接ノードから新しい点を結んだ線が障害物と干渉していないかチェック
 % issue_flag = 0: 問題なし
 % issue_flag = 1: 衝突発生
-issue_flag1 = psuedo_obs_check_line_oct( x, node(nearest), obstacle_edge, bound, Dc);
-issue_flag2 = psuedo_obs_check_line_ship(x, node(nearest), other_ship, Dc, v_o, t_max);
+for j = 1:num_obs_edge_ini
+    if ~strcmp(map.AreaMap.type(j),'circle') == true
+        obstacle_edge = [map.AreaMap.offset_start(j,:);
+                         map.AreaMap.offset_finish(j,:)];
+        issue_flag1 = psuedo_obs_check_line_oct( x, node(nearest), obstacle_edge, bound, Dc);
+    else
 
-issue_flag_nearest  = issue_flag1 || issue_flag2;
+    end
+
+end
+
+issue_flag1 = psuedo_obs_check_line_oct( x, node(nearest), obstacle_edge, bound, Dc);
+% issue_flag2 = psuedo_obs_check_line_ship(x, node(nearest), other_ship, Dc, v_o, t_max);
+% 
+% issue_flag_nearest  = issue_flag1 || issue_flag2;
+issue_flag_nearest  = issue_flag1;
 
 % 新ノードとnearestとの距離などを計算
 if issue_flag_nearest == 0    
@@ -64,12 +77,12 @@ else % nearest以外にも近接ノードがあるとき
         node_jj = node(nbors_ID(jj));
         
         issue_flag1 = psuedo_obs_check_line_oct( x, node_jj, obstacle_edge, bound, Dc);   % 陸地との衝突チェック
-        issue_flag2 = psuedo_obs_check_line_ship(x, node_jj, other_ship, Dc, v_o, t_max); % 他船との衝突チェック
+%         issue_flag2 = psuedo_obs_check_line_ship(x, node_jj, other_ship, Dc, v_o, t_max); % 他船との衝突チェック
         % ノンホロノミックな拘束満たすかチェック
         [issue_flag3, theta_new, omega_new, v_new] = nonholonomic_check2(x, node_jj); % ①．宮崎先生の論文の方法
         %issue_flag3 = path_curvature_check(x, node_jj, node, curvature_threshold_in_radian);                % ②．経路の曲率(curvature)を考える．  
        
-        issue_flag(jj) = issue_flag1 || issue_flag2 || issue_flag3;
+        issue_flag(jj) = issue_flag1 || issue_flag3;
         
         if issue_flag(jj) == 0
             theta_tmp(end+1) = theta_new;
