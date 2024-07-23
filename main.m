@@ -4,19 +4,25 @@ clc
 
 I = 1000; % MaxIteration
 % Dc = [500 1000 2000];
-Dc = [10 10 10];
+Dc_m = [500 10 10];
 t_max = 2400;
-v_max = [10 10 10];
-omega_max = [pi 0.1 0.01];
+v_max_m = [50 10 10];
+omega_max_m = [pi 0.1 0.01];
 curvature_threshold_in_radian = pi/3;     % 経路の最大許容角度差
 allowable_angle = pi/2; % 新ノードが親ノードを探すときになす角がどの範囲内にあるものを対象とするか
 Probability_of_extracting_targetnode = 0.03; % 適当な確率で目標点(target) を抽出
-min_turning_radius = [0 50 200]; %最小回転半径
+min_turning_radius_m = [0 50 200]; %最小回転半径
 w_t = 0; % コスト関数でノードiiからノードjjへの到達時間にかかる重み 
 w_c = 0; % コスト関数でノードiiからノードjjへの曲率    にかかる重み
 w_d = 1; % コスト関数でノードiiからノードjjへのｘｙ距離にかかる重み
 w_a = 10000; % コスト関数でノードiiからノードjjへの姿勢差  にかかる重み
 w_arrival = 0; % ゴール到着時刻に対する重み(find_optimal_path_2D内で使用)
+
+m_r = 1;
+Dc = Dc_m(m_r);
+v_max = v_max_m(m_r);
+omega_max = omega_max_m(m_r);
+min_turning_radius = min_turning_radius_m(m_r);
 
 %% saving parameters
 save_node_parent       = cell(I,1);
@@ -116,7 +122,6 @@ for r = 1:length(map_data)
             sample_x_P_randomly(node,In_list_ID, r_attempt);
 
             disp('sampling x');
-            x
             num_sampling = num_sampling + 1;
 
             [parent, value, nbor_issue, plotobj_neighbors, theta, omega, v] = find_parent(x, node, r_attempt, In_list_ID, nearest, theta_from_nearest, omega_from_nearest, v_from_nearest);
@@ -142,5 +147,9 @@ for r = 1:length(map_data)
         node(ii).parent = parent;
         node(parent).children_num = node(parent).children_num + 1;
         node(parent).children( node(parent).children_num ) = int16(ii);
+        if x(3) > t_max
+            break
+        end
+        drawnow
     end
 end

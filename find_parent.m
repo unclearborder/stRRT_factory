@@ -4,7 +4,7 @@ param = load('param.mat');
 map = load('map.mat');
 % obstacle_edge = param.obstacle_edge;
 % other_ship    = param.other_ship;
-Dc            = param.Dc(1);
+Dc            = param.Dc;
 bound         = param.bound;
 % v_o           = param.v_o;
 t_max         = param.t_max;
@@ -13,6 +13,8 @@ num_obs_edge_ini = length(map.AreaMap.name);
 % 出力の定義＆初期値
 nbor_issue = 0; parent = 0; value = 0; theta = 0; omega = 0; v = 0; plotobj_neighbors = plot3(0,0,0);
 
+issue_flag1 = false(num_obs_edge_ini,1);
+
 % 最近接ノードから新しい点を結んだ線が障害物と干渉していないかチェック
 % issue_flag = 0: 問題なし
 % issue_flag = 1: 衝突発生
@@ -20,24 +22,20 @@ for j = 1:num_obs_edge_ini
     if ~strcmp(map.AreaMap.type(j),'circle') == true
         obstacle_edge = [map.AreaMap.offset_start(j,:);
                          map.AreaMap.offset_finish(j,:)];
-        issue_flag1 = psuedo_obs_check_line_oct( x, node(nearest), obstacle_edge, bound, Dc);
-        if issue_flag1 == 1
-            return;
-        end
+        issue_flag1(j) = psuedo_obs_check_line_oct( x, node(nearest), obstacle_edge, bound, Dc);
+        
     elseif strcmp(map.AreaMap.type(j),'circle') == true
-        issue_flag1 =  psuedo_obs_check_circle_oct(x, node(nearest), map, Dc);
-        if issue_flag1 == 1
-            break;
-        end
+        obs_c = map.AreaMap.offset_center(j);
+        obs_r = map.AreaMap.r(j);
+        issue_flag1(j) =  psuedo_obs_check_circle_oct(x, node(nearest), obs_c, obs_r, Dc);
     end
 
 end
-
 % issue_flag1 = psuedo_obs_check_line_oct( x, node(nearest), obstacle_edge, bound, Dc);
 % issue_flag2 = psuedo_obs_check_line_ship(x, node(nearest), other_ship, Dc, v_o, t_max);
 % 
 % issue_flag_nearest  = issue_flag1 || issue_flag2;
-issue_flag_nearest  = issue_flag1;
+issue_flag_nearest  = ~isempty(issue_flag1(issue_flag1 == 1));
 
 % 新ノードとnearestとの距離などを計算
 if issue_flag_nearest == 0    

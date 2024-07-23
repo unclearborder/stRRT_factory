@@ -7,6 +7,9 @@ t_max = 2400;
 figure;
 hold on
 grid on
+fig_f = gcf;
+fig_f.Position = [-1067 -96 1059 881];
+
     
 plotlimX= [map_data{r}.map_offset(1) map_data{r}.map_offset(1)+map_limit(1)];
 plotlimY = [map_data{r}.map_offset(2)-map_limit(2) map_data{r}.map_offset(2)];
@@ -16,6 +19,8 @@ xlabel("Location X [m]")
 ylabel("Location Y [m]")
 zlabel("Prediction Time[s]")
 set(gca, 'FontName', 'Times New Roman', 'FontSize', 22)
+
+view(3)
 
 for i = 1:map_data{r}.objectNum
         if strcmp(map_data{r}.data.type(i),'circle') == true
@@ -83,6 +88,6 @@ for i = 1:map_data{r}.objectNum
             end
         end
 end
-view(3)
+
 
 % for i = 

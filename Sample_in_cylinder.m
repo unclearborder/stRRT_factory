@@ -14,7 +14,8 @@ P      = param.Probability_of_extracting_targetnode;
 
 % ゴール領域からサンプリングするかどうか
 p = rand(1);
-
+h = 0;
+g = 0;
 if p < P % ゴール領域から抽出するとき
 
 %     x = target(1,1) + (target(1,2)-target(1,1))*rand(1);
@@ -22,9 +23,9 @@ if p < P % ゴール領域から抽出するとき
     x = target(1);
     y = target(2);
     while true
-
+        
         t = x_start(3)+(t_max-x_start(3))*rand;
-        r = v_max(1)*t;
+        r = v_max*t;
 
         if norm([x,y]-[x_start(1),x_start(2)]) < r
                 break
@@ -34,13 +35,12 @@ if p < P % ゴール領域から抽出するとき
 
 
 else % 通常のサンプリング
-
-
+    
     % 時間をランダムサンプリング
     t = x_start(3)+(t_max-x_start(3))*rand;
     
     % その時間における円柱半径は，
-    r = v_max(1)*t;
+    r = v_max*t;
         
     
     while true
