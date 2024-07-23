@@ -2,9 +2,9 @@ clear all
 close all
 clc
 
-I = 1000; % MaxIteration
+I = 100; % MaxIteration
 % Dc = [500 1000 2000];
-Dc_m = [500 10 10];
+Dc_m = [10 10 10];
 t_max = 2400;
 v_max_m = [50 10 10];
 omega_max_m = [pi 0.1 0.01];

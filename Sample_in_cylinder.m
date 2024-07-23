@@ -37,7 +37,8 @@ if p < P % ゴール領域から抽出するとき
 else % 通常のサンプリング
     
     % 時間をランダムサンプリング
-    t = x_start(3)+(t_max-x_start(3))*rand;
+%     t = x_start(3)+(t_max-x_start(3))*rand;
+    t = x_start(3)+10*rand;
     
     % その時間における円柱半径は，
     r = v_max*t;
