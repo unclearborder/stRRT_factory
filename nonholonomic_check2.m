@@ -93,7 +93,7 @@ function [issue_flag, theta_new, omega, v] = nonholonomic_check2(x, node_jj)
         v     = omega*(x2-x1)/(sin(theta_goal1)-sin(theta1));
 
     end
-
+    isempty(v1)
 
     if     0 <= v1 && v1 <= v_max && abs(omega1) <= omega_max && abs(v1/omega1) >= min_turning_radius
         theta_new = theta_goal1;
