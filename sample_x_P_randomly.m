@@ -14,7 +14,7 @@ while true
     obstacle_issue = 1;
     while  obstacle_issue == 1
 
-        [x, obstacle_issue, nearest, plotobj_scale_newpoint,plotobj_ellipse_cylinder ] = sample_polyshape_check(node,In_list_ID,r_attempt);
+        [x, obstacle_issue, nearest, plotobj_scale_newpoint,plotobj_ellipse_cylinder ] = sample_polyshape_check(node,In_list_ID,r_attempt,path, min_path_leng);
         
         % 新しく生成した点が棄却(障害物の内部に生成されてしまったとき)
         if obstacle_issue == 1

@@ -20,9 +20,14 @@ issue_flag1 = false(num_obs_edge_ini,1);
 % issue_flag = 1: 衝突発生
 for j = 1:num_obs_edge_ini
     if ~strcmp(map.AreaMap.type(j),'circle') == true
-        obstacle_edge = [map.AreaMap.offset_start(j,:);
-                         map.AreaMap.offset_finish(j,:)];
-        issue_flag1(j) = psuedo_obs_check_line_oct( x, node(nearest), obstacle_edge, bound, Dc);
+        if ~strcmp(map.AreaMap.type(j),'door') == true
+            obstacle_edge = [map.AreaMap.offset_start(j,:);
+                             map.AreaMap.offset_finish(j,:)];
+            issue_flag1(j) = psuedo_obs_check_line_oct( x, node(nearest), obstacle_edge, bound, Dc);
+        elseif strcmp(map.AreaMap.type(j),'door') == true
+            issue_flag1(j) = 0;
+            
+        end
         
     elseif strcmp(map.AreaMap.type(j),'circle') == true
         obs_c = map.AreaMap.offset_center(j);
