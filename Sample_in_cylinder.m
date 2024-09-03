@@ -64,14 +64,13 @@ else % 通常のサンプリング
     
     while true
 
-%         x = (2*r*rand-r)+x_start(1);
-%         %y = (2*r*rand-r)+x_start(2);
+        x = (2*r*rand-r)+x_start(1);
+        y = (2*r*rand-r)+x_start(2);
 %         y = (r*rand)+x_start(2); % 初期位置の全面180°にサンプリングを集中
 
-        phi = 2*pi*rand;
-        r_rand = rand;
-        x = r*r_rand*cos(phi)+x_start(1);
-        y = r*r_rand*sin(phi)+x_start(2);   
+%         phi = 2*pi*rand;
+%         x = r*cos(phi)+x_start(1);
+%         y = r*sin(phi)+x_start(2);   
             if norm([x,y]-[x_start(1),x_start(2)]) < r
                 break
             end

@@ -19,7 +19,7 @@ w_a = 0; % コスト関数でノードiiからノードjjへの姿勢差  にか
 w_arrival = 1000; % ゴール到着時刻に対する重み(find_optimal_path_2D内で使用)
 
 Targetst = 15;
-Targeted = 33;
+Targeted = 31;
 
 m_r = 1;
 Dc = Dc_m(m_r);
