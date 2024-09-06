@@ -13,29 +13,29 @@ num_obs_edge_ini = length(map.AreaMap.name);
 %%$ 新しいノードの生成
 while ed < radius_min % 新しく生成したノードの位置が近すぎたらやり直す．
 
-    if isempty(path) % 経路が見つかっていないとき、円柱内部からサンプリング
+%     if isempty(path) % 経路が見つかっていないとき、円柱内部からサンプリング
         x = Sample_in_cylinder(node(1).x,t_max);
         plotobj_newpoint = plot3(x(1),x(2),x(3),'k.','MarkerSize',15);
         plotobj_ellipse_cylinder = plot3(0,0,0);
 
 
-    else  % 経路が見つかっているとき、Informed subsetかつ円柱からサンプリング 
-
-        cylinder_issue = 1;
-        while cylinder_issue == 1
-            
-            [x, plotobj_ellipse_cylinder] = Sample_in_informed_subset(node(1).x(1:2),node(path(1)).x(1:2),node(path(1)).x(3),min_path_leng);
-
-            plotobj_newpoint = plot3(x(1),x(2),x(3),'k.','MarkerSize',15);
-            cylinder_issue = sample_cylinder_check(x,node(1).x(1:2));
-
-            if cylinder_issue == 1
-                delete(plotobj_newpoint);
-                delete(plotobj_ellipse_cylinder);
-            end    
-
-        end
-    end
+%     else  % 経路が見つかっているとき、Informed subsetかつ円柱からサンプリング 
+% 
+%         cylinder_issue = 1;
+%         while cylinder_issue == 1
+%             
+%             [x, plotobj_ellipse_cylinder] = Sample_in_informed_subset(node(1).x(1:2),node(path(1)).x(1:2),node(path(1)).x(3),min_path_leng);
+% 
+%             plotobj_newpoint = plot3(x(1),x(2),x(3),'k.','MarkerSize',15);
+%             cylinder_issue = sample_cylinder_check(x,node(1).x(1:2));
+% 
+%             if cylinder_issue == 1
+%                 delete(plotobj_newpoint);
+%                 delete(plotobj_ellipse_cylinder);
+%             end    
+% 
+%         end
+%     end
 
     % 最近接ノードとそのノードまでの距離を求める． 
     [nearest,ed] = find_nearest(node, In_list_ID, x); 
