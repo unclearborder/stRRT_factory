@@ -12,11 +12,11 @@ curvature_threshold_in_radian = pi/3;     % 経路の最大許容角度差
 allowable_angle = pi/2; % 新ノードが親ノードを探すときになす角がどの範囲内にあるものを対象とするか
 Probability_of_extracting_targetnode = 0.03; % 適当な確率で目標点(target) を抽出
 min_turning_radius_m = [0 50 200]; %最小回転半径
-w_t = 100; % コスト関数でノードiiからノードjjへの到達時間にかかる重み 
+w_t = 1; % コスト関数でノードiiからノードjjへの到達時間にかかる重み 
 w_c = 0; % コスト関数でノードiiからノードjjへの曲率    にかかる重み
-w_d = 100; % コスト関数でノードiiからノードjjへのｘｙ距離にかかる重み
+w_d = 1; % コスト関数でノードiiからノードjjへのｘｙ距離にかかる重み
 w_a = 0; % コスト関数でノードiiからノードjjへの姿勢差  にかかる重み
-w_arrival = 1000; % ゴール到着時刻に対する重み(find_optimal_path_2D内で使用)
+w_arrival = 0; % ゴール到着時刻に対する重み(find_optimal_path_2D内で使用)
 
 Targetst = 15;
 Targeted = 31;
@@ -27,7 +27,7 @@ v_max = v_max_m(m_r);
 omega_max = omega_max_m(m_r);
 min_turning_radius = min_turning_radius_m(m_r);
 
-movie_record_on = false;
+movie_record_on = true;
 rewiring_on = false;
 
 %% 動画保存設定
