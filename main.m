@@ -6,20 +6,20 @@ I = 500; % MaxIteration
 % Dc = [500 1000 2000];
 Dc_m = [400 10 10];
 t_max = 2400;
-v_max_m = [300 10 10];
+v_max_m = [800 10 10];
 omega_max_m = [1/3*pi 0.1 0.01];
-curvature_threshold_in_radian = pi/3;     % 経路の最大許容角度差
-allowable_angle = pi/2; % 新ノードが親ノードを探すときになす角がどの範囲内にあるものを対象とするか
+curvature_threshold_in_radian = pi;     % 経路の最大許容角度差
+allowable_angle = 0.2; % 新ノードが親ノードを探すときになす角がどの範囲内にあるものを対象とするか
 Probability_of_extracting_targetnode = 0.03; % 適当な確率で目標点(target) を抽出
-min_turning_radius_m = [0 50 200]; %最小回転半径
+min_turning_radius_m = [50 50 200]; %最小回転半径
 w_t = 1; % コスト関数でノードiiからノードjjへの到達時間にかかる重み 
 w_c = 0; % コスト関数でノードiiからノードjjへの曲率    にかかる重み
 w_d = 1; % コスト関数でノードiiからノードjjへのｘｙ距離にかかる重み
 w_a = 0; % コスト関数でノードiiからノードjjへの姿勢差  にかかる重み
 w_arrival = 0; % ゴール到着時刻に対する重み(find_optimal_path_2D内で使用)
 
-Targetst = 15;
-Targeted = 31;
+Targetst = 7;
+Targeted = 32;
 
 m_r = 1;
 Dc = Dc_m(m_r);
@@ -27,14 +27,14 @@ v_max = v_max_m(m_r);
 omega_max = omega_max_m(m_r);
 min_turning_radius = min_turning_radius_m(m_r);
 
-movie_record_on = true;
+movie_record_on = false;
 rewiring_on = false;
 
 %% 動画保存設定
 speed = 100; 
 Frate = 80; % 大きな数値にするほど、結果が高速で描画されていく
 if movie_record_on
-    videoobj = VideoWriter(append('results_2D_from',num2str(Targetst),'to',num2str(Targeted)));
+    videoobj = VideoWriter(append('results_2D_from',num2str(Targetst),'to',num2str(Targeted),'_withTime_randomly'));
     videoobj.FrameRate = Frate; % Framerate
     open(videoobj);
 end
@@ -102,8 +102,8 @@ SearchTarget = Target_data{1}.data.axis(Targeted,:);
 target = SearchTarget+1000*[cos([3*pi/4; pi/4]),sin([pi/4; -pi/4])];
 
 node(1).x        = [Target_data{1}.data.axis(Targetst,:),0]; % x,y,時間(初期位置)
-% node(1).theta    = pi/4;
-node(1).theta = pi/2 - acos(dot(SearchTarget-node(1).x(1:2),[0 1])/(norm(node(1).x(1:2)-SearchTarget)));% 初期姿勢
+node(1).theta    = -pi/2;
+% node(1).theta = pi/2 - acos(dot(SearchTarget-node(1).x(1:2),[0 1])/(norm(node(1).x(1:2)-SearchTarget)));% 初期姿勢
 node(1).omega    = 0; 
 node(1).v        = 1; 
 node(1).parent   = 0;
@@ -133,8 +133,8 @@ for r = 1:length(map_data)
 
     max_num_attempts = 0;
     path = [];
-
-    for ii = 2:I
+    ii = 2;
+    while isempty(path)
         node(ii).removed = false;
         In_list_ID = find(~[node(1:ii-1).removed]).';
         num_list = numel(In_list_ID);
@@ -410,7 +410,7 @@ for r = 1:length(map_data)
         if x(3) > t_max
             break
         end
-        
+        ii = ii + 1;
     end
 
 
