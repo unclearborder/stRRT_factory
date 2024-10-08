@@ -89,7 +89,8 @@ for i = 1:map_data{r}.objectNum
         end
 end
 % plot(Target_data{r}.data.axis(:,1),Target_data{r}.data.axis(:,2),'k.','MarkerSize',20)
-plot(TargetsPoint(:,1),TargetsPoint(:,2),'r.','MarkerSize',20)
+% plot(TargetsPoint(:,1),TargetsPoint(:,2),'r.','MarkerSize',20)
+plot(Target_data{r}.data.axis(Initial_target(:),1),Target_data{r}.data.axis(Initial_target(:),2),'r.','MarkerSize',20)
 
 tgt_f = [1 2 3 4];
 

@@ -1,4 +1,4 @@
-function [ nearest, ed ] = find_nearest_2Djudge( node, In_list_ID, x)
+function [ nearest, ed ] = find_nearest_2Djudge_Multi( node, In_list_ID, x, target_list)
 % Find the nearest node from nodes in the tree (In_list_ID) to the node (x) and the minimum distance
 
 param = load('param.mat');
@@ -11,9 +11,10 @@ candidate_parent_node_ID = [];
         node_ID = In_list_ID(ii);
         
         time_at_nodejj   = node(node_ID).x(3);
+        tree_of_nodejj   = node(node_ID).tree;
         angle_difference = angle_difference_nodejj_and_x(node(node_ID),x);
     
-        if time_at_nodejj < x(3)
+        if time_at_nodejj < x(3) && target_list ~= tree_of_nodejj
             candidate_parent_node_ID(end+1) =  node_ID;
         end
     

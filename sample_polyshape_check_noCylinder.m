@@ -3,7 +3,8 @@ function [x, obstacle_issue, nearest, plotobj_scale_newpoint] = sample_polyshape
 param = load('param.mat');
 map = load('map.mat');
 radius_min    = param.radius_min;
-t_max         = param.t_max;
+% t_max         = param.t_max;
+Tn = param.Tn;
 Dc = param.Dc;
 
 x = zeros(1,3);
@@ -13,12 +14,12 @@ num_obs_edge_ini = length(map.AreaMap.name);
 %%$ 新しいノードの生成
 while ed < radius_min % 新しく生成したノードの位置が近すぎたらやり直す．
 
-        x = Sample_in_area_randomly();
+        [x,target_list] = Sample_in_area_randomly_noCylinder(Tn);
         plotobj_newpoint = plot3(x(1),x(2),x(3),'k.','MarkerSize',15);
 %         plotobj_ellipse_cylinder = plot3(0,0,0);
 
 
-    [nearest,ed] = find_nearest_2Djudge(node, In_list_ID, x);
+    [nearest,ed] = find_nearest_2Djudge_Multi(node, In_list_ID, x, target_list);
     % サンプリングをやり直すときはそのプロットを削除する
     if ed < radius_min
         delete(plotobj_newpoint);
