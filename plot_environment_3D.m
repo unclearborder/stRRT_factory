@@ -8,7 +8,12 @@ figure;
 hold on
 grid on
 fig_f = gcf;
-fig_f.Position = [-1067 -96 1059 681];
+LabPath = 'C:\Users\RobRoy\Documents\MATLAB\stRRT_factory';
+if strcmp(LabPath,pwd)
+    fig_f.Position = [-1067 -96 1059 681];
+end
+
+
 
     
 plotlimX= [map_data{r}.map_offset(1) map_data{r}.map_offset(1)+map_limit(1)];
@@ -119,9 +124,9 @@ end
 % 真上から見たいとき．
 caz = 0.2682;
 cel = 90;
-
+    
 % 真横から見たいとき
 % caz = -6.8811;
 % cel = 2.4836;
-
+    
 view(caz,cel)

@@ -8,7 +8,11 @@ figure;
 hold on
 grid on
 fig_f = gcf;
-fig_f.Position = [-1067 -96 1059 681];
+LabPath = 'C:\Users\RobRoy\Documents\MATLAB\stRRT_factory';
+if strcmp(LabPath,pwd)
+    fig_f.Position = [-1067 -96 1059 681];
+end
+
 
     
 plotlimX= [map_data{r}.map_offset(1) map_data{r}.map_offset(1)+map_limit(1)];

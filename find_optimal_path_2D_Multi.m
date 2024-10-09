@@ -70,7 +70,7 @@ if ind~=0
         ind = m;
         m = node(ind).parent;
     end
-    path(count + 1) = 1;
+    path(count + 1) = ind
 end
 
 path(path==0) = [];

@@ -1,4 +1,4 @@
-function [x, nearest, plotobj_scale_newpoint,plotobj_ellipse_cylinder, theta, omega, v] = sample_x_P_randomly(node,In_list_ID, r_attempt, path, min_path_leng)
+function [x, nearest, plotobj_scale_newpoint,plotobj_ellipse_cylinder] = sample_x_P_randomly_noangle(node,In_list_ID, r_attempt, path, min_path_leng)
 
 param = load('param.mat');
 map = load('map.mat');
@@ -49,9 +49,9 @@ while true
     % 新しく生成した点は棄却された
     delete(plotobj_scale_newpoint);
     delete(plotobj_ellipse_cylinder);
-    theta = 0;
-    omega = 0;
-    v = 0;
+%     theta = 0;
+%     omega = 0;
+%     v = 0;
 
 end
 %     theta = param.min_turning_radius(1);

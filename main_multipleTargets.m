@@ -18,9 +18,11 @@ w_a = 0; % コスト関数でノードiiからノードjjへの姿勢差  にか
 w_arrival = 1000; % ゴール到着時刻に対する重み(find_optimal_path_2D内で使用)
 
 % target setting
-target_candidate = [1,7,18,33];
+% target_candidate = [1,7,18,33];
+target_candidate = [1,18];
 % Initial_target = [1,7,18,33];
-Initial_target = [3,10,25,36];
+% Initial_target = [3,10,25,36];
+Initial_target = [7,10,25,36];
 
 In = length(Initial_target);
 Tn = length(target_candidate);
@@ -101,7 +103,7 @@ end
 
 
 TargetsPoint    = Target_data{1}.data.axis(target_candidate(:),:);
-TargetsArea     = reshape(TargetsPoint',1,2,4) + 1000*[cos([3*pi/4; pi/4]),sin([pi/4; -pi/4])];
+TargetsArea     = reshape(TargetsPoint',1,2,Tn) + 1000*[cos([3*pi/4; pi/4]),sin([pi/4; -pi/4])];
 
 save('param.mat','Dcs','Dc','t_max','v_maxs','v_max','omega_maxs','omega_max','curvature_threshold_in_radian','radius_min','In','Tn',...
      'bound','Initial_target','TargetsPoint','TargetsArea',"allowable_angle",'Probability_of_extracting_targetnode',...

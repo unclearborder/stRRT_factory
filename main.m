@@ -2,6 +2,8 @@ clear all
 close all
 clc
 
+
+
 I = 500; % MaxIteration
 % Dc = [500 1000 2000];
 Dc_m = [400 10 10];
@@ -97,12 +99,11 @@ bound(3).x = [0,t_max];
 
 %% The setting for initial node
 
-
 SearchTarget = Target_data{1}.data.axis(Targeted,:);
 target = SearchTarget+1000*[cos([3*pi/4; pi/4]),sin([pi/4; -pi/4])];
 
 node(1).x        = [Target_data{1}.data.axis(Targetst,:),0]; % x,y,時間(初期位置)
-node(1).theta    = -pi/2;
+node(1).theta    = pi/2;
 % node(1).theta = pi/2 - acos(dot(SearchTarget-node(1).x(1:2),[0 1])/(norm(node(1).x(1:2)-SearchTarget)));% 初期姿勢
 node(1).omega    = 0; 
 node(1).v        = 1; 
@@ -144,13 +145,16 @@ for r = 1:length(map_data)
         num_sampling = 0;
 
         while nbor_issue == 1
-            [x, nearest, plotobj_scale_newpoint, plotobj_ellipse_cylinder(ii), theta_from_nearest, omega_from_nearest, v_from_nearest] = ...
-            sample_x_P_randomly(node,In_list_ID, r_attempt,path, min_path_leng);
+%             [x, nearest, plotobj_scale_newpoint, plotobj_ellipse_cylinder(ii), theta_from_nearest, omega_from_nearest, v_from_nearest] = ...
+%             sample_x_P_randomly(node,In_list_ID, r_attempt,path, min_path_leng);
+            [x, nearest, plotobj_scale_newpoint, plotobj_ellipse_cylinder(ii)] = ...
+            sample_x_P_randomly_noangle(node,In_list_ID, r_attempt,path, min_path_leng);
 
             disp('sampling x');
             num_sampling = num_sampling + 1;
 
-            [parent, value, nbor_issue, plotobj_neighbors, theta, omega, v] = find_parent(x, node, r_attempt, In_list_ID, nearest, theta_from_nearest, omega_from_nearest, v_from_nearest);
+%             [parent, value, nbor_issue, plotobj_neighbors, theta, omega, v] = find_parent(x, node, r_attempt, In_list_ID, nearest, theta_from_nearest, omega_from_nearest, v_from_nearest);
+            [parent, value, nbor_issue, plotobj_neighbors] = find_parent_noangle(x, node, r_attempt, In_list_ID, nearest);
             delete(plotobj_neighbors);
             if nbor_issue == 1
                 delete(plotobj_scale_newpoint);
@@ -166,9 +170,12 @@ for r = 1:length(map_data)
             end
         end
         node(ii).x      = x;
-        node(ii).theta  = theta;
-        node(ii).omega  = omega;
-        node(ii).v      = v;
+%         node(ii).theta  = theta;
+%         node(ii).omega  = omega;
+%         node(ii).v      = v;
+        node(ii).theta  = node(parent).theta;
+        node(ii).omega  = node(parent).omega;
+        node(ii).v      = node(parent).v;
         node(ii).value  = value;
         node(ii).parent = parent;
         node(parent).children_num = node(parent).children_num + 1;

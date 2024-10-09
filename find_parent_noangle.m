@@ -1,4 +1,4 @@
-function [parent, value, nbor_issue, plotobj_neighbors, theta, omega, v] = find_parent(x, node, radius, In_list_ID, nearest, theta_from_nearest, omega_from_nearest, v_from_nearest)
+function [parent, value, nbor_issue, plotobj_neighbors] = find_parent_noangle(x, node, radius, In_list_ID, nearest)
 
 param = load('param.mat');
 map = load('map.mat');
@@ -48,11 +48,11 @@ if issue_flag_nearest == 0
 %     x_nearest_vec = [node(nearest).x].';
 %     x_nearest_mat = reshape( x_nearest_vec, [dim, numel(x)/dim]);
 %     cost   = dist_ig_mat( x_nearest_mat, x.');
-    cost   = calc_cost(node(nearest), x, theta_from_nearest, omega_from_nearest, v_from_nearest);
-%     cost   = calc_cost_noangle(node(nearest), x);
-    theta  = theta_from_nearest;
-    omega  = omega_from_nearest;
-    v      = v_from_nearest;
+%     cost   = calc_cost(node(nearest), x, theta_from_nearest, omega_from_nearest, v_from_nearest);
+    cost   = calc_cost_noangle(node(nearest), x);
+%     theta  = theta_from_nearest;
+%     omega  = omega_from_nearest;
+%     v      = v_from_nearest;
     parent = nearest;
     value  = [node(nearest).value].' + cost.';
 end
