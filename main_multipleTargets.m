@@ -19,7 +19,8 @@ w_arrival = 1000; % ゴール到着時刻に対する重み(find_optimal_path_2D
 
 % target setting
 target_candidate = [1,7,18,33];
-Initial_target = [1,7,18,33];
+% Initial_target = [1,7,18,33];
+Initial_target = [3,10,25,36];
 
 In = length(Initial_target);
 Tn = length(target_candidate);
@@ -37,7 +38,7 @@ save_node_value        = cell(I*In,1);
 save_node_removed      = cell(I*In,1);
 save_In_list_ID_i      = cell(I*In,1);
 save_children_temp     = zeros(100*I*In,1);
-save_path_candidate    = cell(In,1);
+save_path_candidate    = [];
 
 % How often we save the path 
 save_freq = 1;
@@ -184,6 +185,7 @@ for r = 1:length(map_data)
              if ~isequal(min_path{ii-1},min_path{ii}) %|| isempty(min_path{ii-1})
                 newPath.candidate = min_path{ii};
                 newPath.length = min_path_data(ii);
+                newPath.tree = node(ii).tree;
                 save_path_candidate = [save_path_candidate,newPath];
                 plot_path_to_goal;
              end

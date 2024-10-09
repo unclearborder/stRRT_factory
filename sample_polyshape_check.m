@@ -16,7 +16,7 @@ while ed < radius_min % 新しく生成したノードの位置が近すぎた�
 %     if isempty(path) % 経路が見つかっていないとき、円柱内部からサンプリング
 %         x = Sample_in_cylinder(node(1).x,t_max);
 
-        x = Sample_in_area_randomly();
+        x = Sample_in_area_randomly(node,In_list_ID);
         plotobj_newpoint = plot3(x(1),x(2),x(3),'k.','MarkerSize',15);
         plotobj_ellipse_cylinder = plot3(0,0,0);
 

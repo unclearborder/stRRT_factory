@@ -7,9 +7,9 @@ I = 500; % MaxIteration
 Dc_m = [400 10 10];
 t_max = 2400;
 v_max_m = [800 10 10];
-omega_max_m = [1/3*pi 0.1 0.01];
+omega_max_m = [pi 0.1 0.01];
 curvature_threshold_in_radian = pi;     % 経路の最大許容角度差
-allowable_angle = 0.2; % 新ノードが親ノードを探すときになす角がどの範囲内にあるものを対象とするか
+allowable_angle = 3.14; % 新ノードが親ノードを探すときになす角がどの範囲内にあるものを対象とするか
 Probability_of_extracting_targetnode = 0.03; % 適当な確率で目標点(target) を抽出
 min_turning_radius_m = [50 50 200]; %最小回転半径
 w_t = 1; % コスト関数でノードiiからノードjjへの到達時間にかかる重み 
@@ -19,7 +19,7 @@ w_a = 0; % コスト関数でノードiiからノードjjへの姿勢差  にか
 w_arrival = 0; % ゴール到着時刻に対する重み(find_optimal_path_2D内で使用)
 
 Targetst = 7;
-Targeted = 32;
+Targeted = 18;
 
 m_r = 1;
 Dc = Dc_m(m_r);
@@ -28,7 +28,7 @@ omega_max = omega_max_m(m_r);
 min_turning_radius = min_turning_radius_m(m_r);
 
 movie_record_on = false;
-rewiring_on = false;
+rewiring_on = true;
 
 %% 動画保存設定
 speed = 100; 

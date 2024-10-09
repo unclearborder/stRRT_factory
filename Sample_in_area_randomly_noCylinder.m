@@ -27,7 +27,26 @@ else % 通常のサンプリング
     x = bound(1).x(1)+(bound(1).x(2)-bound(1).x(1))*rand(1);
     y = bound(2).x(1)+(bound(2).x(2)-bound(2).x(1))*rand(1);
     t = t_max*rand(1);
-    target_list = 0;
+    
+    x_min = reshape(target(1,1,:),Tn,1);
+    y_min = reshape(target(2,2,:),Tn,1);
+    x_max = reshape(target(2,1,:),Tn,1);
+    y_max = reshape(target(1,2,:),Tn,1);
+
+    xmin_check = x >= x_min; 
+    xmax_check = x <= x_max;
+    ymin_check = y >= y_min;
+    ymax_check = y <= y_max;
+
+    In_target_check = xmin_check + xmax_check + ymin_check + ymax_check;
+    In_target_ID = find(In_target_check == 4);
+
+    if isempty(In_target_ID)
+        target_list = 0;
+    else
+        target_list = In_target_ID;
+    end
+
 end
     
     x = [x, y, t];

@@ -14,6 +14,7 @@ candidate_parent_node_ID = [];
         angle_difference = angle_difference_nodejj_and_x(node(node_ID),x);
     
         if time_at_nodejj < x(3)
+%         if time_at_nodejj <= x(3)
             candidate_parent_node_ID(end+1) =  node_ID;
         end
     
@@ -29,6 +30,7 @@ candidate_parent_node_ID = [];
         candidate_parent_node = reshape([node(candidate_parent_node_ID).x], [3, numel(candidate_parent_node_ID)]).';
         d = sqrt( sum( ((candidate_parent_node(:,1:2) - x(1:2)).^2)'));
         v_max_t = v_max*(x(3) - candidate_parent_node(:,3))';
+%         v_max_t = 100000;
         d_time_sufficient = d(d < v_max_t);
         if isempty(d_time_sufficient)
             ed      = 0;
