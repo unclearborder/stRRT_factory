@@ -49,8 +49,9 @@ else % 通常のサンプリング
     
     % 時間をランダムサンプリング
 %     R = mu*chol(sigma);
-    t_ub = max([bound(1).x - x_start(1),bound(2).x - x_start(2)]/v_max);
-    t = x_start(3)+(min(t_max,t_ub)-x_start(3))*rand;
+%     t_ub = max([bound(1).x - x_start(1),bound(2).x - x_start(2)]/v_max);
+%     t = x_start(3)+(min(t_max,t_ub)-x_start(3))*rand;
+    t = x_start(3)+(t_max-x_start(3))*rand;
 %     t = -100;
 %     
 %     while t <= x_start(3) || t_max <= t

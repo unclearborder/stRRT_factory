@@ -7,7 +7,7 @@ clc
 I = 500; % MaxIteration
 % Dc = [500 1000 2000];
 Dc_m = [400 10 10];
-t_max = 2400;
+t_max = 400;
 v_max_m = [800 10 10];
 omega_max_m = [pi 0.1 0.01];
 curvature_threshold_in_radian = pi;     % 経路の最大許容角度差
@@ -21,7 +21,7 @@ w_a = 0; % コスト関数でノードiiからノードjjへの姿勢差  にか
 w_arrival = 0; % ゴール到着時刻に対する重み(find_optimal_path_2D内で使用)
 
 Targetst = 7;
-Targeted = 18;
+Targeted = 31;
 
 m_r = 1;
 Dc = Dc_m(m_r);
