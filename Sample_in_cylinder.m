@@ -4,6 +4,7 @@ param  = load('param.mat');
 v_max  = param.v_max;
 target = param.target; 
 P      = param.Probability_of_extracting_targetnode;
+bound  = param.bound;
  
 %%% 入力変数
 % x_start：スタート位置(初期位置)([x; y; t]の1x3列ベクトル)
@@ -48,8 +49,8 @@ else % 通常のサンプリング
     
     % 時間をランダムサンプリング
 %     R = mu*chol(sigma);
-
-    t = x_start(3)+(t_max-x_start(3))*rand;
+    t_ub = max([bound(1).x - x_start(1),bound(2).x - x_start(2)]/v_max);
+    t = x_start(3)+(min(t_max,t_ub)-x_start(3))*rand;
 %     t = -100;
 %     
 %     while t <= x_start(3) || t_max <= t
@@ -70,8 +71,19 @@ else % 通常のサンプリング
 
 %         phi = 2*pi*rand;
 %         x = r*cos(phi)+x_start(1);
-%         y = r*sin(phi)+x_start(2);   
-            if norm([x,y]-[x_start(1),x_start(2)]) < r
+%         y = r*sin(phi)+x_start(2);
+        xlim_min = bound(1).x(1);
+        xlim_max = bound(1).x(2);
+        ylim_min = bound(2).x(2);
+        ylim_max = bound(2).x(1);
+
+        xmin_check = x >= xlim_min;
+        xmax_check = x <= xlim_max;
+        ymin_check = y >= ylim_min;
+        ymax_check = y <= ylim_max;
+
+        bound_check = xmin_check + xmax_check + ymin_check + ymax_check;
+            if norm([x,y]-[x_start(1),x_start(2)]) < r && bound_check == 4
                 break
             end
     
