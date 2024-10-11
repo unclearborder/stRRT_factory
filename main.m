@@ -4,10 +4,10 @@ clc
 
 
 
-I = 500; % MaxIteration
+I = 10000; % MaxIteration
 % Dc = [500 1000 2000];
 Dc_m = [400 10 10];
-t_max = 400;
+t_max = 2400;
 v_max_m = [800 10 10];
 omega_max_m = [pi 0.1 0.01];
 curvature_threshold_in_radian = pi;     % 経路の最大許容角度差
@@ -29,14 +29,14 @@ v_max = v_max_m(m_r);
 omega_max = omega_max_m(m_r);
 min_turning_radius = min_turning_radius_m(m_r);
 
-movie_record_on = false;
+movie_record_on = true;
 rewiring_on = true;
 
 %% 動画保存設定
 speed = 100; 
 Frate = 80; % 大きな数値にするほど、結果が高速で描画されていく
 if movie_record_on
-    videoobj = VideoWriter(append('results_2D_from',num2str(Targetst),'to',num2str(Targeted),'_withTime_randomly'));
+    videoobj = VideoWriter(append('results_2D_from',num2str(Targetst),'to',num2str(Targeted),'_v_maxt'));
     videoobj.FrameRate = Frate; % Framerate
     open(videoobj);
 end
